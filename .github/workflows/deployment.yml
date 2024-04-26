@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '18.x'
       - name: Build
-        uses: npm install
+        run: npm install
       - name: Deploy
         run: echo "Deployed"
   
