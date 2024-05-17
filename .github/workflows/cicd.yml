@@ -1,31 +1,28 @@
-name: CI/CD for Angular App
+name: CICD
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  deploy:
+  setup:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        stage: [dev, qa, prod]
         include:
-          - stage: dev
-            bucket: your-dev-s3-bucket
-            aws_region: us-east-1
-          - stage: qa
-            bucket: your-qa-s3-bucket
-            aws_region: us-west-1
-          - stage: prod
-            bucket: your-prod-s3-bucket
-            aws_region: eu-central-1
+          - stage-name: dev
+            artifact: basic-app-dev
+          - stage-name: qa
+            artifact: basic-app-qa
+          - stage-name: prod
+            artifact: basic-app-prod
 
     steps:
-    - name: Call reusable workflow
-      uses: ./.github/workflows/build.yml@main
-      with:
-        stage: ${{ matrix.stage }}
-        bucket: ${{ matrix.bucket }}
-        aws_region: ${{ matrix.aws_region }}
+      - name: Build
+        uses: ./.github/workflows/build.yml@main
+        with:
+          stage: ${{ matrix.stage-name }}
+          artifact: ${{ matrix.artifact }}
+    

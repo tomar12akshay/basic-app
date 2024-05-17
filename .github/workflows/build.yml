@@ -1,53 +1,40 @@
-name: Build and Deploy
-
 on:
   workflow_call:
     inputs:
       stage:
+        description: Environment Name
         required: true
         type: string
-      bucket:
+      artifact:
+        description: Artifact
         required: true
         type: string
-      aws_region:
-        required: true
+      node-version:
+        description: Node.js Version
+        required: false
         type: string
+        default: '16.x'
 
 jobs:
-  build:
+  build: 
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Download Source Code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{inputs.node-version}}
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Run Build for ${{inputs.stage-name}} environment
+        run: npm install --configuration=${{inputs.stage-name}}
 
-    - name: Build Angular application
-      run: npm run build --prod
-
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: prod-artifacts
-        path: dist/
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ inputs.aws_region }}
-
-    - name: Sync S3 bucket
-      run: aws s3 sync dist/ s3://${{ inputs.bucket }} --delete
-
-    - name: Notify deployment
-      if: always()
-      run: echo "Deployment to ${{ inputs.stage }} stage complete."
+      - name: Publish - ${{inputs.stage-name}} artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{inputs.artifact}}
+          path: dist/
