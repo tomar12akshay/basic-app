@@ -14,10 +14,10 @@ jobs:
         include:
           - stage-name: dev
             artifact: basic-app-dev
-          - stage-name: qa
-            artifact: basic-app-qa
-          - stage-name: prod
-            artifact: basic-app-prod
+          # - stage-name: qa
+          #   artifact: basic-app-qa
+          # - stage-name: prod
+          #   artifact: basic-app-prod
 
     steps:
       - name: Build
