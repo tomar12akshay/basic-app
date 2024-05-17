@@ -1,0 +1,34 @@
+on:
+  workflow_call:
+    inputs:
+      stage-name:
+        description: Environment Name
+        required: true
+        type: string
+      artifact:
+        description: Artifact
+        required: true
+        type: string
+      node-version:
+        description: Node.js Version
+        required: false
+        type: string
+        default: '16.x'
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{inputs.node-version}}
+
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build 
+        run: npm install --configuration=${{inputs.stage-name}}

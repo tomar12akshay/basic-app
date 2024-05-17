@@ -1,0 +1,28 @@
+name: CICD
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - stage: dev
+            name: basic-app-dev
+            aws_region: us-east-1
+          - stage: qa
+            name: basic-app-qa
+            aws_region: us-west-1
+          - stage: prod
+            name: basic-app-prod
+            aws_region: eu-central-1s
+
+    steps:
+      - name: Build
+        uses: ./build.yml
+    
