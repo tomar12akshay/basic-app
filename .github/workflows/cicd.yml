@@ -12,14 +12,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - stage: dev
-            name: basic-app-dev
+          - stage-name: dev
+            artifact: basic-app-dev
             aws_region: us-east-1
-          - stage: qa
-            name: basic-app-qa
+          - stage-name: qa
+            artifact: basic-app-qa
             aws_region: us-west-1
-          - stage: prod
-            name: basic-app-prod
+          - stage-name: prod
+            artifact: basic-app-prod
             aws_region: eu-central-1s
 
     steps:
