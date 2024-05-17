@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Build
-        uses: ./.github/workflows/build.yml
+        uses: ./.github/workflows/build.yml@main
         with:
           stage: ${{ matrix.stage-name }}
           artifact: ${{ matrix.artifact }}
