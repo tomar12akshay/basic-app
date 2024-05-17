@@ -14,18 +14,15 @@ jobs:
         include:
           - stage-name: dev
             artifact: basic-app-dev
-            aws_region: us-east-1
           - stage-name: qa
             artifact: basic-app-qa
-            aws_region: us-west-1
           - stage-name: prod
             artifact: basic-app-prod
-            aws_region: eu-central-1s
 
     steps:
-      - name: Download Source Code
-        uses: actions/checkout@v4
-
       - name: Build
-        uses: ./../.github/workflows/build.yml
+        uses: ./.github/workflows/build.yml
+        with:
+          stage: ${{ matrix.stage-name }}
+          artifact: ${{ matrix.artifact }}
     
