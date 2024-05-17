@@ -17,15 +17,22 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
     steps:
       - name: Download Source Code
         uses: actions/checkout@v4
-      - name: Install Node.js
+        
+      - name: Install Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
-      - name: Build
+          node-version: ${{matrix.node-version}}
+          cache: 'npm'
+          
+      - name: Install Dependencies
         run: npm install
-      - name: Deploy
-        run: echo "Deployed"
+        
+      - name: Build
+        run: npm run build --c=dev
   
