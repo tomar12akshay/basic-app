@@ -23,6 +23,9 @@ jobs:
             aws_region: eu-central-1s
 
     steps:
+      - name: Download Source Code
+        uses: actions/checkout@v4
+
       - name: Build
         uses: ./../.github/workflows/build.yml
     

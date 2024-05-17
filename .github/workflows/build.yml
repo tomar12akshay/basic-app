@@ -19,8 +19,8 @@ jobs:
   build: 
     runs-on: ubuntu-latest
     steps:
-      - name: Download Source Code
-        uses: actions/checkout@v4
+      # - name: Download Source Code
+      #   uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
