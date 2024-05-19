@@ -23,6 +23,12 @@ jobs:
       - name: List files in the repository
         run: ls -a
 
+      - name: Print workflow metadata
+        run: |
+          echo "Workflow name: ${{ github.workflow }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Job name: ${{ github.job }}"
+
       - name: Build
         uses: ./../.github/workflows/action.yml
         with:
