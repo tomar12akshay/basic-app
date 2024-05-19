@@ -20,6 +20,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: List files in the repository
+        run: ls -a
+
       - name: Build
         uses: ./../.github/workflows/action.yml
         with:
