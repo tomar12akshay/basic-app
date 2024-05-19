@@ -7,22 +7,30 @@ on:
       - main
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         include:
           - stage-name: dev
             artifact: basic-app-dev
-          # - stage-name: qa
-          #   artifact: basic-app-qa
-          # - stage-name: prod
-          #   artifact: basic-app-prod
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: npm install
+      
       - name: Build
-        uses: ./.github/workflows/build.yml@main
+        uses: ./.github/workflows/build.yml
         with:
           stage: ${{ matrix.stage-name }}
           artifact: ${{ matrix.artifact }}
-    
+          
