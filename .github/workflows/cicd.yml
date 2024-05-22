@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     uses: tomar12akshay/basic-app/.github/workflows/build.yml@main
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main'
     with:
       stage: dev
       artifact: basic-dev
