@@ -7,35 +7,10 @@ on:
       - main
 
 jobs:
-  checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
   build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        include:
-          - stage-name: dev
-            artifact: basic-app-dev
-
-    steps:
-      - name: List files in the repository
-        run: ls -a
-
-      - name: Print workflow metadata
-        run: |
-          echo "Workflow name: ${{ github.workflow }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Job name: ${{ github.job }}"
-
-      - name: Build
-        uses: tomar12akshay/basic-app/.github/actions/action.yml@main
-        if: github.ref == 'refs/heads/develop'
-        with:
-          stage: ${{ matrix.stage-name }}
-          artifact: ${{ matrix.artifact }}
+    uses: tomar12akshay/basic-app/.github/workflows/build.yml@main
+    if: github.ref == 'refs/heads/develop'
+    with:
+      stage: dev
+      artifact: basic-dev
           
